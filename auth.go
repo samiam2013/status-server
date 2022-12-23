@@ -11,6 +11,7 @@ import (
 
 func basicAuthMiddleware(next http.HandlerFunc, conf config) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("WWW-Authenticate", `Basic realm="Restricted"`)
 		// get the auth header or return 401
 		authHeader := r.Header.Get("Authorization")
 		if !strings.HasPrefix(authHeader, "Basic ") {
@@ -66,7 +67,7 @@ func constantTimeAuthorize(userInput, passInput, user, pass string) bool {
 	// check the username and password with time invariant compare
 	uAuth := subtle.ConstantTimeCompare([]byte(userInput), []byte(user)) == 1
 	pAuth := subtle.ConstantTimeCompare([]byte(passInput), []byte(pass)) == 1
-	logrus.Warn("!failAnyway ", !failAnyway, " uAuth ", uAuth, " pAuth ", pAuth)
+	logrus.Debug("!failAnyway ", !failAnyway, " uAuth ", uAuth, " pAuth ", pAuth)
 	auth := longCircuitAnd(!failAnyway, longCircuitAnd(uAuth, pAuth))
 	return auth
 }

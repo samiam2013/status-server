@@ -47,6 +47,8 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	utSeconds := int64(ut.Seconds())
+
 	mem, err := memory.Get()
 	if err != nil {
 		logrus.WithError(err).Error("error getting memory")
@@ -88,14 +90,14 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	type status struct {
 		Time   int64  `json:"time"`
-		Uptime string `json:"up_time"`
+		Uptime int64  `json:"up_time_s"`
 		Memory memory `json:"memory"`
 		CPU    cpu    `json:"cpu"`
 	}
 
 	current := status{
 		Time:   currentTime,
-		Uptime: ut.String(),
+		Uptime: utSeconds,
 		Memory: memory{
 			UsedPerc: memUsePerc,
 			UsedGib:  memUseGib,

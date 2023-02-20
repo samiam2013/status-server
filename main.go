@@ -16,8 +16,10 @@ import (
 )
 
 type config struct {
-	Username string `env:"BASIC_USER,required"`
-	Password string `env:"BASIC_PASS,required"`
+	Username	string `env:"BASIC_USER,required"`
+	Password	string `env:"BASIC_PASS,required"`
+	Host		string `env:"HOST,required"`
+	Port		string `env:"PORT,required"`
 }
 
 func main() {
@@ -35,7 +37,7 @@ func main() {
 	stat.HandleFunc("/status", basicAuthMiddleware(statusHandler, conf))
 
 	// start the server
-	log.Fatal(http.ListenAndServe("0.0.0.0:8888", stat))
+	log.Fatal(http.ListenAndServe(conf.Host + ":" + conf.Port, stat))
 
 }
 

@@ -2,7 +2,7 @@
 
 simple json api to check system resources status via HTTP
 
-set BASIC_PASS and BASIC_USER environment variables to configure auth (use .env file in root or `export`)
+set BASIC_PASS, BASIC_USER, HOST, and PORT environment variables to configure auth (use .env file in root or `export`)
 
 reverse proxy from nginx or similar on /status with https (or basic auth isn't secure)
 

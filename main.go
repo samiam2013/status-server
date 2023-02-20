@@ -35,7 +35,7 @@ func main() {
 	stat.HandleFunc("/status", basicAuthMiddleware(statusHandler, conf))
 
 	// start the server
-	log.Fatal(http.ListenAndServe("localhost:8888", stat))
+	log.Fatal(http.ListenAndServe("0.0.0.0:8888", stat))
 
 }
 
